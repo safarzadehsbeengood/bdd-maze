@@ -57,7 +57,7 @@ class Maze:
         if self._win is None:
             return
         self._win.redraw()
-        time.sleep(0.05)
+        # time.sleep(0.01)
 
     def _break_entrance_and_exit(self):
         self._cells[0][0].top = False
@@ -124,7 +124,6 @@ class Maze:
         return self._solve_r(0, 0)
 
     def _solve_r(self, i, j):
-        print(i, j)
         self._animate()
         curr = self._cells[i][j]
         curr.visited = True
@@ -132,32 +131,36 @@ class Maze:
             return True 
         # right
         if i + 1 < self._n and not self._cells[i+1][j].visited and not curr.right:
+            curr.draw_move(self._cells[i+1][j], "blue")
             if self._solve_r(i+1, j):
-                curr.draw_move(self._cells[i+1][j])
+                curr.draw_move(self._cells[i+1][j], "green")
                 return True
             else:
-                curr.draw_move(self._cells[i+1][j], True)
+                curr.draw_move(self._cells[i+1][j])
 
         # left
         if i - 1 >= 0 and not self._cells[i-1][j].visited and not curr.left:
+            curr.draw_move(self._cells[i-1][j], "blue")
             if self._solve_r(i-1, j):
-                curr.draw_move(self._cells[i-1][j])
+                curr.draw_move(self._cells[i-1][j], "green")
                 return True
             else:
-                curr.draw_move(self._cells[i-1][j], True)
+                curr.draw_move(self._cells[i-1][j])
         # up 
         if j - 1 >= 0 and not self._cells[i][j-1].visited and not curr.top:
+            curr.draw_move(self._cells[i][j-1], "blue")
             if self._solve_r(i, j-1):
-                curr.draw_move(self._cells[i][j-1])
+                curr.draw_move(self._cells[i][j-1], "green")
                 return True
             else:
-                curr.draw_move(self._cells[i][j-1], True)
+                curr.draw_move(self._cells[i][j-1])
         # down
         if j < self._m and not self._cells[i][j+1].visited and not curr.bottom:
+            curr.draw_move(self._cells[i][j+1], "blue")
             if self._solve_r(i, j+1):
-                curr.draw_move(self._cells[i][j+1])
+                curr.draw_move(self._cells[i][j+1], "green")
                 return True
             else:
-                curr.draw_move(self._cells[i][j+1], True)
+                curr.draw_move(self._cells[i][j+1])
 
         return False

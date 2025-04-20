@@ -52,10 +52,10 @@ class Cell:
         else:
             self._win.draw_line(line, "white")
 
-    def draw_move(self, to_cell, undo=False):
+    def draw_move(self, to_cell, color="red"):
         if self._win is None:
             return
         ax, ay = (self._x1+self._x2)//2, (self._y1+self._y2)//2
         bx, by = (to_cell._x1+to_cell._x2)//2, (to_cell._y1+to_cell._y2)//2
         line = Line(Point(ax, ay), Point(bx, by))
-        self._win.draw_line(line, "gray" if undo else "red")
+        self._win.draw_line(line, color)
