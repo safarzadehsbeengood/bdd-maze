@@ -11,6 +11,8 @@ class Cell:
         self.left = True
         self.top = True
         self.bottom = True
+        
+        self.visited = False
 
         self._win = win
 
@@ -26,26 +28,29 @@ class Cell:
         # x1, y1 is top left corner
         # x2, y2 is bottom right corner
 
-        color = self.left
-        color = "black" if self.left else "white"
+        line = Line(Point(x1, y1), Point(x1, y2))
         if self.left:
-            line = Line(Point(x1, y1), Point(x1, y2))
-            self._win.draw_line(line, color)
+            self._win.draw_line(line, "black")
+        else:
+            self._win.draw_line(line, "white")
             
-        color = "black" if self.top else "white"
+        line = Line(Point(x1, y1), Point(x2, y1))
         if self.top:
-            line = Line(Point(x1, y1), Point(x2, y1))
-            self._win.draw_line(line, color)
+            self._win.draw_line(line, "black")
+        else:
+            self._win.draw_line(line, "white")
 
-        color = "black" if self.bottom else "white"
+        line = Line(Point(x1, y2), Point(x2, y2))
         if self.bottom:
-            line = Line(Point(x1, y2), Point(x2, y2))
-            self._win.draw_line(line, color)
-
-        color = "black" if self.right else "white"
+            self._win.draw_line(line, "black")
+        else:
+            self._win.draw_line(line, "white")
+            
+        line = Line(Point(x2, y1), Point(x2, y2))
         if self.right:
-            line = Line(Point(x2, y1), Point(x2, y2))
-            self._win.draw_line(line, color)
+            self._win.draw_line(line, "black")
+        else:
+            self._win.draw_line(line, "white")
 
     def draw_move(self, to_cell, undo=False):
         if self._win is None:
