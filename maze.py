@@ -57,7 +57,7 @@ class Maze:
         if self._win is None:
             return
         self._win.redraw()
-        # time.sleep(0.05)
+        time.sleep(0.05)
 
     def _break_entrance_and_exit(self):
         self._cells[0][0].top = False
@@ -119,3 +119,45 @@ class Maze:
         for i in range(self._n):
             for j in range(self._m):
                 self._cells[i][j].visited = False
+
+    def solve(self):
+        return self._solve_r(0, 0)
+
+    def _solve_r(self, i, j):
+        print(i, j)
+        self._animate()
+        curr = self._cells[i][j]
+        curr.visited = True
+        if i == self._n-1 and j == self._m-1:
+            return True 
+        # right
+        if i + 1 < self._n and not self._cells[i+1][j].visited and not curr.right:
+            if self._solve_r(i+1, j):
+                curr.draw_move(self._cells[i+1][j])
+                return True
+            else:
+                curr.draw_move(self._cells[i+1][j], True)
+
+        # left
+        if i - 1 >= 0 and not self._cells[i-1][j].visited and not curr.left:
+            if self._solve_r(i-1, j):
+                curr.draw_move(self._cells[i-1][j])
+                return True
+            else:
+                curr.draw_move(self._cells[i-1][j], True)
+        # up 
+        if j - 1 >= 0 and not self._cells[i][j-1].visited and not curr.top:
+            if self._solve_r(i, j-1):
+                curr.draw_move(self._cells[i][j-1])
+                return True
+            else:
+                curr.draw_move(self._cells[i][j-1], True)
+        # down
+        if j < self._m and not self._cells[i][j+1].visited and not curr.bottom:
+            if self._solve_r(i, j+1):
+                curr.draw_move(self._cells[i][j+1])
+                return True
+            else:
+                curr.draw_move(self._cells[i][j+1], True)
+
+        return False
